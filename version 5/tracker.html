@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url(images/ftiness2.jpeg) no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        #tracker {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 50px auto;
+            max-width: 400px;
+        }
+
+        #exerciseInput, #caloriesBurned, #totalCalories {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        #addExercise, #calculateCalories {
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="tracker">
+    <h1>Fitness Tracker</h1>
+    <label for="exerciseInput">Exercise:</label>
+    <input type="text" id="exerciseInput" placeholder="Enter exercise">
+
+    <label for="caloriesBurned">Calories Burned:</label>
+    <input type="number" id="caloriesBurned" placeholder="Enter calories burned">
+
+    <button id="addExercise">Add Exercise</button>
+
+    <h2>Exercise Log</h2>
+    <ul id="exerciseLog"></ul>
+
+    <button id="calculateCalories">Calculate Total Calories</button>
+    <p id="totalCalories">Total Calories: 0</p>
+</div>
+
+<script>
+    const exerciseLog = [];
+    let totalCalories = 0;
+
+    document.getElementById('addExercise').addEventListener('click', function () {
+        const exerciseInput = document.getElementById('exerciseInput').value;
+        const caloriesBurned = parseInt(document.getElementById('caloriesBurned').value);
+
+        if (exerciseInput && !isNaN(caloriesBurned)) {
+            exerciseLog.push({ exercise: exerciseInput, calories: caloriesBurned });
+            updateExerciseLog();
+            clearInputFields();
+        }
+    });
+
+    document.getElementById('calculateCalories').addEventListener('click', function () {
+        totalCalories = exerciseLog.reduce((total, exercise) => total + exercise.calories, 0);
+        document.getElementById('totalCalories').innerText = 'Total Calories: ' + totalCalories;
+    });
+
+    function updateExerciseLog() {
+        const exerciseLogElement = document.getElementById('exerciseLog');
+        exerciseLogElement.innerHTML = '';
+        exerciseLog.forEach(exercise => {
+            const li = document.createElement('li');
+            li.innerText = `${exercise.exercise} - ${exercise.calories} calories`;
+            exerciseLogElement.appendChild(li);
+        });
+    }
+
+    function clearInputFields() {
+        document.getElementById('exerciseInput').value = '';
+        document.getElementById('caloriesBurned').value = '';
+    }
+</script>
+
+</body>
+</html>
